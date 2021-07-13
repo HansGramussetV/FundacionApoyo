@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundación Apoyo</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <style>
+    footer{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 50px;
+    }
+  </style>
+</head>
+<body class="bg-light ">
+
+    <h1 class="text-center  bg-info p-4 text-white">FUNDACIÓN APOYO</h1>
+    <h3 class="text-center mt-4 text-uppercase">control de piezas</h3>
+    <section class="container mt-5">
+      <div class="container mb-1 text-right">
+      <th><a href="{% url 'crear'%}" class="btn btn-primary"> Nuevo Residente</a></th>
+      <th><a href="{% url 'ver'%}" class="btn btn-secondary"> Ver Residente</a></th>
+      <th><a href="{% url 'para'%}" class="btn btn-secondary"> Ver Paramedico</a></th>
+      </div>
+      {% block content %}
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Nro de Pieza</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Rut Residente</th>
+            <th scope="col">Nombre Residente</th>
+            <th scope="col">Apellido Residente</th>
+            <th scope="col">Paramedico a cargo</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            {%for pieza in piezas%}
+            <tr>
+              <td>{{pieza.nroPieza}}</td>
+              {% if pieza.residente == null %}
+                <td class="text-success">Disponible</td>
+              {%else%}
+                <td class="text-danger">Ocupada</td>
+              {%endif%}
+
+              <td>{{pieza.residente.rut}}</td>
+              <td>{{pieza.residente.nombre}}</td>
+              <td>{{pieza.residente.apellido}}</td>
+              <td>{{pieza.paramedico.nombreP}}</td>
+              <td></td>
+              <td><a href="{% url 'edit-pieza' pieza.nroPieza%}" class="btn btn-secondary"> Editar</a></td>
+              <td><a href="{% url 'quit-pieza' pieza.nroPieza%}" class="btn btn-danger"> Quitar</a></td>
+            </tr>
+
+            {%endfor%}
+            
+          
+          </tr>
+        </tbody>
+      </table>
+      {% endblock %}
+    </section>
+    <footer class="py-3 bg-dark">
+      <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Fundación Apoyo</p></div>
+    </footer>
+
+</body>
+
+</html>
